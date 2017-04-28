@@ -40,16 +40,16 @@ public class dummy {
                     int n = i.nextInt();
                     switch (n) {
                         case 1:
-                            c.sendBall(new Ball(3), Walls.wall.TOP);
+                            c.sendBall(new Ball(), Walls.wall.TOP);
                             break;
                         case 2:
-                            c.sendBall(new Ball(3), Walls.wall.BOTTOM);
+                            c.sendBall(new Ball(), Walls.wall.BOTTOM);
                             break;
                         case 3:
-                            c.sendBall(new Ball(3), Walls.wall.LEFT);
+                            c.sendBall(new Ball(), Walls.wall.LEFT);
                             break;
                         case 4:
-                            c.sendBall(new Ball(3), Walls.wall.RIGHT);
+                            c.sendBall(new Ball(), Walls.wall.RIGHT);
                             break;
                     }
                     i = new Scanner(System.in);
@@ -60,6 +60,26 @@ public class dummy {
                         System.out.println(w.get(j));
                     }
                     break;
+                case 3:
+                    Ball b = new Ball();
+                    (new Thread() {
+                        public void run() {
+//                            b.getTime();
+//                            while (true) {
+//                                Physics.ballMovement(this, space);
+//                                do {
+//                                    try {
+//                                        Thread.sleep(15);
+//                                    } catch (InterruptedException ex) {
+//                                        Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
+//                                    }
+//                                } while (b.isActive());
+//                            }
+                        }
+                    }).start();
+
+                    break;
+
                 case 0:
 //                    c.live = false;
                     exit = true;
