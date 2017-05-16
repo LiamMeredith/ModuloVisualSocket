@@ -74,6 +74,9 @@ public class ModuloVisualSocket extends Thread {
                         case "update_addWall":
                             walls.add(((Walls.wall) ((Peticion) o).getObject(0)));
                             break;
+                        case "update_removeWall":
+                            walls.remove(((Walls.wall) ((Peticion) o).getObject(0)));
+                            break;
                         case "addBall":
                             if (((Status) ((Peticion) o).getObject(0)).ID == 1) {
                                 Ball b = ((Ball) ((Peticion) o).getObject(1));
