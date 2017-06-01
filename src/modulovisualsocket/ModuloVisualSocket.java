@@ -22,8 +22,8 @@ import org.physicballs.items.*;
 
 /**
  * Class client that finds and connects to the PhysicsBalls Server
- * 
- * 
+ *
+ *
  * @author Liam-Portatil
  */
 public class ModuloVisualSocket extends Thread {
@@ -36,9 +36,10 @@ public class ModuloVisualSocket extends Thread {
     private ObjectInputStream in;
     private ArrayList<Walls.wall> walls;
     private boolean live = true;
+    private int[][] plantilla;
 
     /**
-     * Modulo visual constructor 
+     * Modulo visual constructor
      */
     public ModuloVisualSocket() {
         try {
@@ -85,6 +86,11 @@ public class ModuloVisualSocket extends Thread {
                                 System.out.println("Couldnt add ball");
                             }
                             break;
+                        case "get_windows":
+                            if (((Status) ((Peticion) o).getObject(0)).ID == 1) {
+                                plantilla = ((int[][]) ((Peticion) o).getObject(1));
+                            }
+                            break;
                     }
                 }
             } catch (IOException | ClassNotFoundException ex) {
@@ -98,6 +104,15 @@ public class ModuloVisualSocket extends Thread {
             out.writeObject("modulo_visual");
         } catch (IOException ex) {
             Logger.getLogger(ModuloVisualSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void getWindows() {
+        try {
+            Peticion p = new Peticion("get_windows");
+            out.writeObject(p);
+        } catch (IOException ex) {
+
         }
     }
 
@@ -117,8 +132,9 @@ public class ModuloVisualSocket extends Thread {
     }
 
     /**
-     * Finds the IP of the server using the available port 
-     * @return 
+     * Finds the IP of the server using the available port
+     *
+     * @return
      */
     public InetAddress getServerIP() {
         InetAddress ip = null;
