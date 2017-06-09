@@ -5,6 +5,7 @@
  */
 package modulovisualsocket;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,6 +37,7 @@ public class ModuloVisualSocket extends Thread {
     private ObjectInputStream in;
     private ArrayList<Walls.wall> walls;
     private boolean live = true;
+    private String scenario = "";
     private int[][] plantilla;
 
     /**
@@ -63,7 +65,6 @@ public class ModuloVisualSocket extends Thread {
                     if (((Status) o).ID >= 500) {
                         //Se ha producido un error
                         System.out.println(((Status) o).description);
-                        live = false;
                     }
                 } else if (o instanceof Peticion) {
                     switch (((Peticion) o).getAccion()) {
@@ -91,14 +92,24 @@ public class ModuloVisualSocket extends Thread {
                                 plantilla = ((int[][]) ((Peticion) o).getObject(1));
                             }
                             break;
+                        case "registration":
+                            if (((Status) ((Peticion) o).getObject(0)).ID == 1) {
+                                walls = ((ArrayList<Walls.wall>) ((Peticion) o).getObject(1));
+                                scenario = ((String) ((Peticion) o).getObject(2));
+                            }
+                            break;
                     }
                 }
             } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(ModuloVisualSocket.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Conection error - conection refused");
+                live = false;
             }
         }
     }
 
+    /**
+     * Registers client in server
+     */
     private void Register() {
         try {
             out.writeObject("modulo_visual");
@@ -107,6 +118,9 @@ public class ModuloVisualSocket extends Thread {
         }
     }
 
+    /**
+     * gets available windows Probable not in use
+     */
     public void getWindows() {
         try {
             Peticion p = new Peticion("get_windows");
@@ -116,10 +130,21 @@ public class ModuloVisualSocket extends Thread {
         }
     }
 
+    /**
+     * Gets the available walls
+     *
+     * @return
+     */
     public ArrayList<Walls.wall> getWalls() {
         return walls;
     }
 
+    /**
+     * sends ball to the neighbour, indicated by the wall
+     *
+     * @param b
+     * @param w
+     */
     public void sendBall(Ball b, Walls.wall w) {
         try {
             Peticion p = new Peticion("enviar_pelota");
@@ -129,6 +154,14 @@ public class ModuloVisualSocket extends Thread {
         } catch (IOException ex) {
 
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getScenario() {
+        return this.scenario;
     }
 
     /**

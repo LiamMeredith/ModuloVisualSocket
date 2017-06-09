@@ -61,23 +61,7 @@ public class dummy {
                     }
                     break;
                 case 3:
-                    Ball b = new Ball();
-                    (new Thread() {
-                        public void run() {
-//                            b.getTime();
-//                            while (true) {
-//                                Physics.ballMovement(this, space);
-//                                do {
-//                                    try {
-//                                        Thread.sleep(15);
-//                                    } catch (InterruptedException ex) {
-//                                        Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
-//                                    }
-//                                } while (b.isActive());
-//                            }
-                        }
-                    }).start();
-
+                    System.out.println(c.getScenario());
                     break;
 
                 case 0:
